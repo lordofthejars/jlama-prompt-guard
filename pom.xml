@@ -7,7 +7,7 @@
 
     <properties>
         <compiler-plugin.version>3.13.0</compiler-plugin.version>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.release>22</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
@@ -15,7 +15,7 @@
         <quarkus.platform.version>3.14.4</quarkus.platform.version>
         <skipITs>true</skipITs>
         <surefire-plugin.version>3.3.1</surefire-plugin.version>
-        <jlama.version>0.3.1</jlama.version>
+        <jlama.version>0.4.0</jlama.version>
     </properties>
 
     <dependencyManagement>
@@ -44,6 +44,11 @@
             <artifactId>quarkus-rest</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.tjake</groupId>
+            <artifactId>jlama-core</artifactId>
+            <version>0.4.1</version>
+        </dependency>
+        <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-jlama</artifactId>
             <version>0.34.0</version>
@@ -57,7 +62,7 @@
         <dependency>
             <groupId>com.github.tjake</groupId>
             <artifactId>jlama-native</artifactId>
-            <classifier>${os.detected.classifier}</classifier>
+            <classifier>osx-aarch_64</classifier>
             <version>${jlama.version}</version>
         </dependency>
         <dependency>
@@ -87,12 +92,10 @@
                 <version>${quarkus.platform.version}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <compilerArgs>
-                        <arg>--enable-preview</arg>
-                    </compilerArgs>
                     <jvmArgs>--enable-preview</jvmArgs>
-                    <jvmArgs>--add-modules=jdk.incubator.vector</jvmArgs>
-                    <jvmArgs>--enable-native-access=ALL-UNNAMED</jvmArgs>
+                    <modules>
+                        <module>jdk.incubator.vector</module>
+                    </modules>
                 </configuration>
                 <executions>
                     <execution>
@@ -109,6 +112,11 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${compiler-plugin.version}</version>
                 <configuration>
+                    <compilerArgs>
+                        <arg>--enable-preview</arg>
+                        <arg>--add-modules</arg>
+                        <arg>jdk.incubator.vector</arg>
+                    </compilerArgs>
                     <parameters>true</parameters>
                 </configuration>
             </plugin>

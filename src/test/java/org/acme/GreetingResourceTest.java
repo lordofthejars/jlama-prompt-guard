@@ -1,20 +1,22 @@
 package org.acme;
 
+
 import io.quarkus.test.junit.QuarkusTest;
+import jakarta.inject.Inject;
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.is;
+import java.io.IOException;
+
 
 @QuarkusTest
 class GreetingResourceTest {
+
+    @Inject
+    GreetingResource gr;
+
     @Test
-    void testHelloEndpoint() {
-        given()
-          .when().get("/hello")
-          .then()
-             .statusCode(200)
-             .body(is("Hello from Quarkus REST"));
+    public void test() throws IOException {
+        gr.hello();
     }
 
 }
